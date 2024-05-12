@@ -14,11 +14,17 @@ read_sheet <- function(file_name, sheet_name) {
         "kandidatas", "apylinkėse",
         "paštu", "viso", "proc_galiojantys", "proc_viso"
     )
+
+    hh <- substr(sheet_name, 1, 1)
+    diena <- ifelse(hh == "0", "2024-05-13", "2024-05-12")
+    tst <- ymd_hms(paste(
+        diena,
+        gsub("_", ":", sheet_name), ":00"
+    ))
+
+
     dt <- dt %>%
-        mutate(timestamp = ymd_hms(paste(
-            "2024-05-12",
-            gsub("_", ":", sheet_name), ":00"
-        ))) %>%
+        mutate(timestamp = tst) %>%
         mutate(apylinkes = ap)
     dt <- dt %>% filter(kandidatas != "Iš viso")
     dt
