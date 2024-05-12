@@ -1,0 +1,61 @@
+---
+title: "Rinkimų eigos analizė"
+format: 
+    html:
+        embed-resources: true
+        code-fold: true
+        df-print: paged
+        toc: true
+        toc-location: left
+        theme: cosmo
+knitr: 
+  opts_chunk: 
+    echo: false
+    message: false
+    warning: false
+
+---
+
+## Apylinkių skaičius
+
+Iš viso yra 1895 apylinkės
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+
+dt <- read.csv("data/rezultatai_laike.csv") %>%
+    mutate(timestamp = ymd_hms(timestamp))
+
+ap <- dt %>%
+    select(timestamp, apylinkes) %>%
+    unique()
+
+ggplot(aes(x = timestamp, y = apylinkes), data = ap) +
+    geom_col() +
+    theme_bw() +
+    labs(x = "Laikas", y = "Apylinkės", title = "Apylinkių pristačiusių duomenis skaičius")
+```
+
+## Balsavimo rezultatai
+
+```{r}
+ggplot(aes(x = timestamp, y = proc_viso, group = kandidatas, colour = kandidatas), data = dt) +
+    geom_point() +
+    geom_line() +
+    theme_bw() +
+    scale_colour_manual(name = "Kandidatas", values = RColorBrewer::brewer.pal(8, "Set1")) +
+    labs(x = "Laikas", y = "Procentas nuo dalyvavusių rinkėjų", title = "Balsavimo rezultatų kitimas laike")
+```
+
+## Kova dėl antros vietos
+
+```{r}
+ggplot(aes(x = timestamp, y = proc_viso, group = kandidatas, colour = kandidatas), data = dt %>% filter(kandidatas != "Gitanas NAUSĖDA")) +
+    geom_point() +
+    geom_line() +
+    theme_bw() +
+    scale_colour_manual(name = "Kandidatas", values = RColorBrewer::brewer.pal(7, "Set1")) +
+    labs(x = "Laikas", y = "Procentas nuo dalyvavusių rinkėjų", title = "Balsavimo rezultatų kitimas laike, Nausėdos konkurentai")
+```
