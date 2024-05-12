@@ -41,7 +41,7 @@ ggplot(aes(x = timestamp, y = apylinkes), data = ap) +
 ## Balsavimo rezultatai
 
 ```{r}
-cols <- RColorBrewer::brewer.pal(8, "Set1")[c(6, 8, 7, 4, 5, 1, 3, 2)]
+cols <- RColorBrewer::brewer.pal(8, "Set1")[c(6, 8, 7, 5, 2, 1, 3, 4)]
 ggplot(aes(x = timestamp, y = proc_viso, group = kandidatas, colour = kandidatas), data = dt) +
     geom_point() +
     geom_line() +
