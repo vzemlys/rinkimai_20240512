@@ -1,0 +1,51 @@
+---
+title: "Rinkimų eigos analizė, 2024-05-26"
+format: 
+    html:
+        embed-resources: true
+        code-fold: true
+        df-print: paged
+        toc: true
+        toc-location: left
+        theme: cosmo
+knitr: 
+  opts_chunk: 
+    echo: false
+    message: false
+    warning: false
+
+---
+
+## Apylinkių skaičius
+
+Iš viso yra 1895 apylinkės
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+
+dt <- read.csv("data/rezultatai_laike_2024_05_26.csv") %>%
+    mutate(timestamp = ymd_hms(timestamp))
+
+ap <- dt %>%
+    select(timestamp, apylinkes) %>%
+    unique()
+
+ggplot(aes(x = timestamp, y = apylinkes), data = ap) +
+    geom_col() +
+    theme_bw() +
+    labs(x = "Laikas", y = "Apylinkės", title = "Apylinkių pristačiusių duomenis skaičius")
+```
+
+## Balsavimo rezultatai
+
+```{r}
+cols <- RColorBrewer::brewer.pal(3, "Set1")[c(2, 3)]
+ggplot(aes(x = timestamp, y = proc_galiojantys, group = kandidatas, colour = kandidatas), data = dt) +
+    geom_point() +
+    geom_line() +
+    theme_bw() +
+    scale_colour_manual(name = "Kandidatas", values = cols) +
+    labs(x = "Laikas", y = "Procentas nuo dalyvavusių rinkėjų", title = "Balsavimo rezultatų kitimas laike")
+```
