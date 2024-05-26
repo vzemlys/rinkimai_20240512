@@ -26,7 +26,8 @@ library(lubridate)
 library(ggplot2)
 
 dt <- read.csv("data/rezultatai_laike_2024_05_26.csv") %>%
-    mutate(timestamp = ymd_hms(timestamp))
+    mutate(timestamp = ymd_hms(timestamp)) %>%
+    filter(timestamp >= "2024-05-26 21:00:02")
 
 ap <- dt %>%
     select(timestamp, apylinkes) %>%
