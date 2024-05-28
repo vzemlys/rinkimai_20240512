@@ -17,7 +17,7 @@ repos:
     -   id: check-added-large-files
         args: ['--maxkb=5000']
     -   id: end-of-file-fixer
-        exclude: '\.Rd'
+        exclude: '\.(Rd|.html|.json|.css|.js|.woff)'
 -   repo: https://github.com/pre-commit-ci/pre-commit-ci-config
     rev: v1.6.1
     hooks:
