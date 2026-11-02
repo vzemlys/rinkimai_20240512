@@ -4,7 +4,6 @@ library(dplyr)
 library(lubridate)
 
 
-
 response <- GET("https://www.vrk.lt/statiniai/puslapiai/rinkimai/1504/2/2068/rezultatai/rezultataiVienmVrt.json")
 oo0 <- content(response, "text", encoding = "UTF-8")
 oo <- oo0 %>% fromJSON()
